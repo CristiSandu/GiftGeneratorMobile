@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GiftGenerator.Services;
+using GiftGenerator.Features.Respons;
+using GiftGenerator.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 
@@ -8,9 +9,6 @@ namespace GiftGenerator.Features.Home;
 
 public partial class MainPageViewModel : BaseViewModel
 {
-    [ObservableProperty]
-    ObservableCollection<string> chatList;
-
     [ObservableProperty]
     List<string> persons = new List<string>
     {
@@ -21,7 +19,7 @@ public partial class MainPageViewModel : BaseViewModel
     [ObservableProperty]
     List<string> interests = new List<string>
     {
-        "Sport"
+         "Sport"
         ,"Creative"
         ,"Nature"
         ,"Lively"
@@ -37,8 +35,6 @@ public partial class MainPageViewModel : BaseViewModel
         ,"Outdoor"
     };
 
-
-
     [ObservableProperty]
     List<string> interval = new List<string>
     {
@@ -51,67 +47,88 @@ public partial class MainPageViewModel : BaseViewModel
     };
 
     [ObservableProperty]
-    string question;
+    bool isGirl = true;
+
+    [ObservableProperty]
+    string priceInterval;
+
+    [ObservableProperty]
+    List<string> selectedIntervals;
+
 
     IHttpService _httpSerive;
+    IPredictionService _predictionService;
 
-    public MainPageViewModel(IHttpService httpService)
+    public MainPageViewModel(IHttpService httpService, IPredictionService predictionService)
     {
         _httpSerive = httpService;
-        ChatList = new ObservableCollection<string>();
+        _predictionService = predictionService;
     }
 
     [RelayCommand]
     private void PersonChouse(string person)
     {
-        int i = 0;
+        IsGirl = person == "girlfriend";
+    }
+
+    [RelayCommand]
+    private void PriceChouse(string price)
+    {
+        PriceInterval = price;
     }
 
     [RelayCommand]
     private void InteresList(List<string> selections)
     {
-        int i = 0;
+        SelectedIntervals = selections;
     }
 
     [RelayCommand]
-    private void GeneratePosiblePrompts()
+    private async void GeneratePosiblePrompts()
     {
-        List<string> finalPrompts = new List<string>();
+        //List<string> finalPrompts = new List<string>();
 
-        foreach (var person in persons)
+        //foreach (var person in persons)
+        //{
+        //    List<string> intervale = new List<string>();
+        //    for (int i = 0; i < interests.Count; i++)
+        //    {
+        //        var concatRange = string.Join(",", interests.Take(i + 1));
+        //        intervale.Add(concatRange);
+
+        //        finalPrompts.Add($"Give me 10 gift ideas for my {person} witch have thease interests: {interests[i]}");
+        //    }
+
+        //    foreach (string interest in intervale)
+        //    {
+        //        finalPrompts.Add($"Give me 10 gift ideas for my {person} witch have thease interests: {interest}");
+        //    }
+        //}
+
+        //var serializedJsonRequest = JsonConvert.SerializeObject(finalPrompts);
+
+        //int j = 0;
+        string fileName = IsGirl ? "InterestsG.json" : "InterestsB.json";
+        List<string> respons = await _predictionService.GetRecomandationBasedOfInterests(fileName, SelectedIntervals);
+
+        string person = IsGirl ? "Girlfriend" : "Boyfriend";
+        var navigationParameter = new Dictionary<string, object>
         {
-            List<string> intervale = new List<string>();
-            for (int i = 0; i < interests.Count; i++)
-            {
-                var concatRange = string.Join(",", interests.Take(i + 1));
-                intervale.Add(concatRange);
+            { "Recomandations", respons },
+            { "Message", $"{person}\nInterested in: {string.Join(", ", SelectedIntervals)}\nLess then {PriceInterval}" }
+        };
 
-                finalPrompts.Add($"Give me 10 gift ideas for my {person} witch have thease interests: {interests[i]}");
-            }
-
-            foreach (string interest in intervale)
-            {
-                finalPrompts.Add($"Give me 10 gift ideas for my {person} witch have thease interests: {interest}");
-            }
-
-
-        }
-
-        var serializedJsonRequest = JsonConvert.SerializeObject(finalPrompts);
-
-        int j = 0;
-
+        await Shell.Current.GoToAsync(nameof(ResponsPage), navigationParameter);
     }
 
-    [RelayCommand]
-    private void SendQuestion()
-    {
-        ChatList.Add(Question);
-        Question = string.Empty;
+    //[RelayCommand]
+    //private void SendQuestion()
+    //{
+    //    ChatList.Add(Question);
+    //    Question = string.Empty;
 
-        string resons = _httpSerive.SendMsg(Question);
+    //    string resons = _httpSerive.SendMsg(Question);
 
-        ChatList.Add(resons);
-    }
-
+    //    ChatList.Add(resons);
+    //}
 }

@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using GiftGenerator.Features.Login;
+using GiftGenerator.Features.Respons;
 using GiftGenerator.Services;
+using GiftGenerator.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Platform;
@@ -9,6 +11,7 @@ using UIKit;
 using CoreGraphics;
 using Plugin.Firebase.Auth;
 using Plugin.Firebase.Shared;
+using GiftGenerator.Services.Interfaces;
 #endif
 
 #if IOS
@@ -23,9 +26,9 @@ namespace GiftGenerator;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
@@ -40,21 +43,24 @@ public static class MauiProgram
             .CustomComportament();
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
-        builder.Services.AddHttpClient<Services.IHttpService, Services.HttpService>();
+
+        builder.Services.AddHttpClient<IHttpService, HttpService>();
+        builder.Services.AddSingleton<IPredictionService, PredictionService>();
+        builder.Services.AddSingleton<IAuthService, AuthService>();
 
         builder.Services.AddSingleton<Features.Home.MainPage, Features.Home.MainPageViewModel>();
-
-        builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<LoginPage, LoginPageViewModel>();
+        builder.Services.AddTransient<ResponsPage, ResponsPageViewModel>();
 
         return builder.Build();
-	}
+    }
 
     private static MauiAppBuilder RegisterFirebaseServices(this MauiAppBuilder builder)
     {
-        builder.ConfigureLifecycleEvents(events => {
+        builder.ConfigureLifecycleEvents(events =>
+        {
 #if IOS
             events.AddiOS(iOS => iOS.FinishedLaunching((app, launchOptions) => {
                 CrossFirebase.Initialize(app, launchOptions, CreateCrossFirebaseSettings());

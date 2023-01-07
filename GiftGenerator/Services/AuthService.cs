@@ -1,4 +1,5 @@
-﻿using Plugin.Firebase.Auth;
+﻿using GiftGenerator.Services.Interfaces;
+using Plugin.Firebase.Auth;
 
 namespace GiftGenerator.Services;
 

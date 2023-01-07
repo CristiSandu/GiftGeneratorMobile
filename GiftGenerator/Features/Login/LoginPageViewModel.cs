@@ -1,7 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.Input;
 using GiftGenerator.Features.Home;
-using GiftGenerator.Services;
+using GiftGenerator.Services.Interfaces;
 
 namespace GiftGenerator.Features.Login;
 

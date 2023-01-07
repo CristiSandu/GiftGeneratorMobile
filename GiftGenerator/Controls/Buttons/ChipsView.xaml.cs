@@ -85,7 +85,7 @@ BindableProperty.Create(nameof(ListSpan), typeof(int), typeof(ChipsView), 1);
         set => SetValue(ListSpanProperty, value);
     }
 
-    public int LastSelection { get; set; } = 0;
+    public int LastSelection { get; set; } = -1;
 
     public Command<string> Command { get; private set; }
 
@@ -139,7 +139,8 @@ BindableProperty.Create(nameof(ListSpan), typeof(int), typeof(ChipsView), 1);
                     ChipValues[index].BackgroundChip = SelectionColor;
                     SelectedValues.Add(ChipValues[index].Name);
 
-                }else
+                }
+                else
                 {
                     ChipValues[index].StrokeColor = UnSelectionColor;
                     ChipValues[index].BackgroundChip = UnSelectionColor;
@@ -170,8 +171,8 @@ BindableProperty.Create(nameof(ListSpan), typeof(int), typeof(ChipsView), 1);
                 Index = $"{index}",
                 Name = teams,
                 TextColor = content.TextColorValue,
-                StrokeColor = index != 0 ? content.UnSelectionColor : content.SelectionColor,
-                BackgroundChip = index != 0 ? content.UnSelectionColor : content.SelectionColor,
+                StrokeColor = content.UnSelectionColor,
+                BackgroundChip = content.UnSelectionColor,
             });
 
             index++;

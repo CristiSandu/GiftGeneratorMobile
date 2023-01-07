@@ -1,4 +1,4 @@
-﻿namespace GiftGenerator.Services
+﻿namespace GiftGenerator.Services.Interfaces
 {
     public interface IHttpService
     {

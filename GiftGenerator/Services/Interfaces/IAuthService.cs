@@ -1,6 +1,6 @@
 ﻿using Plugin.Firebase.Auth;
 
-namespace GiftGenerator.Services
+namespace GiftGenerator.Services.Interfaces
 {
     public interface IAuthService
     {

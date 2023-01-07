@@ -147,7 +147,7 @@
                                     UnSelectionColor="Gray"
                                     TextColorValue="White"
                                     MultipleSelection="False"
-                                    TapCommand="{Binding PersonChouseCommand}"
+                                    TapCommand="{Binding PriceChouseCommand}"
                                     Values="{Binding Interval}" />
                 </Grid>
 
