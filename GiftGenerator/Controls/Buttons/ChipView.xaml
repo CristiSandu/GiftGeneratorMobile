@@ -22,4 +22,9 @@
         <TapGestureRecognizer Command="{Binding TapCommand, Source={x:Reference chipView}}"
                               CommandParameter="{Binding Index, Source={x:Reference chipView}}" />
     </Border.GestureRecognizers>
+    <Border.Shadow>
+        <Shadow Brush="Black"
+                Offset="0,3"
+                Opacity="0.2" />
+    </Border.Shadow>
 </Border>

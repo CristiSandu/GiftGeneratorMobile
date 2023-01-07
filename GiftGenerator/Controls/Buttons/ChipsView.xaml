@@ -10,7 +10,7 @@
                     ItemsSource="{Binding ChipValues, Source={x:Reference chipsView}}">
         <CollectionView.ItemsLayout>
             <GridItemsLayout Orientation="Horizontal"
-                             Span="1"
+                             Span="{Binding ListSpan, Source={x:Reference chipsView}}"
                              VerticalItemSpacing="8"
                              HorizontalItemSpacing="12" />
         </CollectionView.ItemsLayout>
