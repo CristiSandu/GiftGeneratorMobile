@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "251679508411",
+    "project_id": "giftgenerator-d4a8e",
+    "storage_bucket": "giftgenerator-d4a8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251679508411:android:2ef1f0d32307042e9ca69e",
+        "android_client_info": {
+          "package_name": "com.companyname.giftgenerator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251679508411-v3iauj839aloq62svrkl4ggl2likmkc6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW0VIet0Pu_LDROSHGHSeXQwfsGEI2BsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "251679508411-v3iauj839aloq62svrkl4ggl2likmkc6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

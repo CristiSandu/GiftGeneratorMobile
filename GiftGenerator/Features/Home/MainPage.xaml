@@ -2,55 +2,172 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GiftGenerator.Features.Home"
+             xmlns:btns="clr-namespace:GiftGenerator.Controls.Buttons"
+             xmlns:util="clr-namespace:GiftGenerator.Utils"
              x:DataType="vm:MainPageViewModel"
              Shell.NavBarIsVisible="False"
              x:Class="GiftGenerator.Features.Home.MainPage">
+    <ScrollView>
 
-    <Grid RowDefinitions="48,auto"
-          ColumnDefinitions="auto,auto,*"
-          Margin="8,6">
+        <Grid RowDefinitions="48,auto"
+              ColumnDefinitions="auto,auto,*"
+              RowSpacing="12"
+              Margin="8,6">
 
-        <Border Grid.ColumnSpan="3"
-                StrokeShape="RoundRectangle 24"
-                Padding="8">
-            <Grid ColumnDefinitions="40,*,40"
-                  ColumnSpacing="12">
-                <Image Source="logo.png"
-                       HeightRequest="40"
-                       WidthRequest="40" />
+            <Border Grid.ColumnSpan="3"
+                    StrokeShape="RoundRectangle 24"
+                    Padding="8">
 
-                <Label Grid.Column="1"
-                       Text="Gift Generator"
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                            Offset="0,15"
+                            Opacity="0.2" />
+                </Border.Shadow>
+                <Grid ColumnDefinitions="40,*,40"
+                      ColumnSpacing="12">
+                    <Image Source="logo.png"
+                           HeightRequest="40"
+                           WidthRequest="40" />
+
+                    <Label Grid.Column="1"
+                           Text="Gift Generator"
+                           FontAttributes="Bold"
+                           FontSize="24"
+                           Margin="0,-3,0,0"
+                           VerticalTextAlignment="Center"
+                           FontFamily="PPSB"
+                           TextColor="{StaticResource RedTextColor}" />
+
+                    <Image Grid.Column="2"
+                           Source="hello.png"
+                           HeightRequest="40"
+                           WidthRequest="40">
+                        <Image.Clip>
+                            <EllipseGeometry RadiusX="20"
+                                             RadiusY="20"
+                                             Center="20,20" />
+                        </Image.Clip>
+                    </Image>
+                </Grid>
+            </Border>
+
+            <VerticalStackLayout Grid.Row="1"
+                                 Grid.ColumnSpan="3"
+                                 Spacing="24">
+                <Label FontFamily="PPSB"
                        FontAttributes="Bold"
-                       FontSize="24"
-                       VerticalTextAlignment="Center"
-                       TextColor="{StaticResource RedTextColor}" />
+                       FontSize="28">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Welcome "
+                                  FontFamily="PPSB"
+                                  FontAttributes="Bold"
+                                  TextColor="{StaticResource TextColor}" />
+                            <Span Text="John Doe"
+                                  FontFamily="PPSB"
+                                  FontAttributes="Bold"
+                                  TextColor="{StaticResource RedTextColor}" />
+                            <Span Text="!"
+                                  FontFamily="PPSB"
+                                  FontAttributes="Bold"
+                                  TextColor="{StaticResource TextColor}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-                <Image Grid.Column="2" Source="hello.png"
-                       HeightRequest="40"
-                       WidthRequest="40">
-                    <Image.Clip>
-                        <EllipseGeometry RadiusX="20"
-                                         RadiusY="20"
-                                         Center="20,20" />
-                    </Image.Clip>
-                </Image>
-            </Grid>
-        </Border>
+                <Image Source="hello.png"
+                       HeightRequest="120"
+                       WidthRequest="120"
+                       HorizontalOptions="End" />
 
-        <Entry Grid.Row="1"
-               Grid.ColumnSpan="3"
-               Placeholder="Ask a Question ..."
-               Text="{Binding Question}" />
+                <Grid ColumnDefinitions="auto,*">
+                    <Label VerticalTextAlignment="Center"
+                           FontSize="18"
+                           HeightRequest="50">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Find a  "
+                                      FontFamily="PPSB"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource TextColor}" />
+                                <Span Text="Gift "
+                                      FontFamily="PPSB"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource RedTextColor}" />
+                                <Span Text="for: "
+                                      FontFamily="PPSB"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource TextColor}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-        <Button Grid.Row="1"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
-                Text="Send"
-                HeightRequest="40"
-                WidthRequest="40"
-                CornerRadius="20"
-                Command="{Binding SendQuestionCommand}" />
-    </Grid>
+                    <btns:ChipsView Grid.Column="1"
+                                    Margin="0,0,0,0"
+                                    SelectionColor="{StaticResource RedTextColor}"
+                                    UnSelectionColor="Gray"
+                                    TextColorValue="White"
+                                    TapCommand="{Binding PersonChouseCommand}"
+                                    Values="{Binding Persons}" />
+                </Grid>
 
+                <Grid RowDefinitions="*,auto">
+                    <Label Grid.Row="0"
+                           FontSize="18"
+                           VerticalTextAlignment="Start"
+                           Text="What he/she likes ?"
+                           FontFamily="PPSB"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource TextColor}" />
+
+                    <btns:ChipsView Grid.Row="1"
+                                    Margin="0,0,0,0"
+                                    SelectionColor="{StaticResource RedTextColor}"
+                                    ListSpan="2"
+                                    UnSelectionColor="Gray"
+                                    TextColorValue="White"
+                                    MultipleSelection="True"
+                                    TapCommand="{Binding InteresListCommand}"
+                                    Values="{Binding Interests}" />
+                </Grid>
+
+                <Grid RowDefinitions="*,auto">
+                    <Label Grid.Row="0"
+                           FontSize="18"
+                           VerticalTextAlignment="Center"
+                           Text="Price Interval less then:"
+                           FontFamily="PPSB"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource TextColor}" />
+
+                    <btns:ChipsView Grid.Row="1"
+                                    Margin="0,0,0,0"
+                                    SelectionColor="{StaticResource RedTextColor}"
+                                    ListSpan="2"
+                                    UnSelectionColor="Gray"
+                                    TextColorValue="White"
+                                    MultipleSelection="False"
+                                    TapCommand="{Binding PriceChouseCommand}"
+                                    Values="{Binding Interval}" />
+                </Grid>
+
+                <Button Text="Find a Gift"
+                        FontSize="18"
+                        FontFamily="PPSB"
+                        Padding="12,0,12,-4"
+                        Command="{Binding GeneratePosiblePromptsCommand}"
+                        HorizontalOptions="Center">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="1,0">
+                            <GradientStop Color="{StaticResource LinearEndRed}"
+                                          Offset="0.0" />
+                            <GradientStop Color="{StaticResource LinearStartRed}"
+                                          Offset="0.7" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

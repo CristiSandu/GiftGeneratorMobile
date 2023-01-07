@@ -35,6 +35,12 @@ public partial class ChipsView : ContentView
     public static readonly BindableProperty TapCommandProperty =
     BindableProperty.CreateAttached(nameof(TapCommand), typeof(ICommand), typeof(ChipsView), null);
 
+    public static readonly BindableProperty MultipleSelectionProperty =
+BindableProperty.Create(nameof(MultipleSelection), typeof(bool), typeof(ChipsView), false);
+
+    public static readonly BindableProperty ListSpanProperty =
+BindableProperty.Create(nameof(ListSpan), typeof(int), typeof(ChipsView), 1);
+
     public ObservableCollection<ChipData> ChipValues { get; set; } = new ObservableCollection<ChipData>();
 
     public List<string> Values
@@ -67,44 +73,83 @@ public partial class ChipsView : ContentView
         set => SetValue(UnSelectionColorProperty, value);
     }
 
-    public int LastSelection { get; set; } = 0;
+    public bool MultipleSelection
+    {
+        get => (bool)GetValue(MultipleSelectionProperty);
+        set => SetValue(MultipleSelectionProperty, value);
+    }
+
+    public int ListSpan
+    {
+        get => (int)GetValue(ListSpanProperty);
+        set => SetValue(ListSpanProperty, value);
+    }
+
+    public int LastSelection { get; set; } = -1;
 
     public Command<string> Command { get; private set; }
+
+    List<string> SelectedValues = new List<string>();
 
 
     public ChipsView()
     {
         Command = new Command<string>(indexString =>
         {
-            if (!int.TryParse(indexString, out int index))
-                return;
-
-            if (LastSelection == index)
+            if (!MultipleSelection)
             {
-                ChipValues[index].StrokeColor = UnSelectionColor;
-                ChipValues[index].BackgroundChip = UnSelectionColor;
-                LastSelection = -1;
-                return;
-            }
+                if (!int.TryParse(indexString, out int index))
+                    return;
 
-            if (LastSelection != -1)
-            {
-                ChipValues[index].StrokeColor = SelectionColor;
-                ChipValues[index].BackgroundChip = SelectionColor;
-                ChipValues[LastSelection].StrokeColor = UnSelectionColor;
-                ChipValues[LastSelection].BackgroundChip = UnSelectionColor;
+                if (LastSelection == index)
+                {
+                    ChipValues[index].StrokeColor = UnSelectionColor;
+                    ChipValues[index].BackgroundChip = UnSelectionColor;
+                    LastSelection = -1;
+                    return;
+                }
 
-                LastSelection = index;
+                if (LastSelection != -1)
+                {
+                    ChipValues[index].StrokeColor = SelectionColor;
+                    ChipValues[index].BackgroundChip = SelectionColor;
+                    ChipValues[LastSelection].StrokeColor = UnSelectionColor;
+                    ChipValues[LastSelection].BackgroundChip = UnSelectionColor;
+
+                    LastSelection = index;
+                }
+                else
+                {
+                    ChipValues[index].StrokeColor = SelectionColor;
+                    ChipValues[index].BackgroundChip = SelectionColor;
+
+                    LastSelection = index;
+                }
+
+                TapCommand.Execute(ChipValues[index].Name);
             }
             else
             {
-                ChipValues[index].StrokeColor = SelectionColor;
-                ChipValues[index].BackgroundChip = SelectionColor;
+                if (!int.TryParse(indexString, out int index))
+                    return;
 
-                LastSelection = index;
+                if (ChipValues[index].StrokeColor == UnSelectionColor)
+                {
+                    ChipValues[index].StrokeColor = SelectionColor;
+                    ChipValues[index].BackgroundChip = SelectionColor;
+                    SelectedValues.Add(ChipValues[index].Name);
+
+                }
+                else
+                {
+                    ChipValues[index].StrokeColor = UnSelectionColor;
+                    ChipValues[index].BackgroundChip = UnSelectionColor;
+                    SelectedValues.Remove(ChipValues[index].Name);
+                }
+
+                TapCommand.Execute(SelectedValues);
             }
 
-            TapCommand.Execute(ChipValues[index].Name);
         });
 
         InitializeComponent();
@@ -116,17 +161,8 @@ public partial class ChipsView : ContentView
         if (content.Values == null)
             return;
 
-        if (content.Values.Count > 1)
-            content.ChipValues.Add(new ChipData
-            {
-                Index = "0",
-                Name = "All",
-                TextColor = content.TextColorValue,
-                StrokeColor = content.SelectionColor,
-                BackgroundChip = content.SelectionColor,
-            });
 
-        int index = content.Values.Count == 1 ? 0 : 1;
+        int index = 0;
 
         content.Values.ForEach(teams =>
         {
@@ -135,8 +171,8 @@ public partial class ChipsView : ContentView
                 Index = $"{index}",
                 Name = teams,
                 TextColor = content.TextColorValue,
-                StrokeColor = index != 0 ? content.UnSelectionColor : content.SelectionColor,
-                BackgroundChip = index != 0 ? content.UnSelectionColor : content.SelectionColor,
+                StrokeColor = content.UnSelectionColor,
+                BackgroundChip = content.UnSelectionColor,
             });
 
             index++;
