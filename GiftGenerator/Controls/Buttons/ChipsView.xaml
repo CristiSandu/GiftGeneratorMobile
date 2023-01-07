@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:btns="clr-namespace:GiftGenerator.Controls.Buttons"
+             x:Name="chipsView"
+             x:Class="GiftGenerator.Controls.Buttons.ChipsView">
+
+    <CollectionView HeightRequest="{OnPlatform iOS=40}"
+                    Margin="0,4"
+                    ItemsSource="{Binding ChipValues, Source={x:Reference chipsView}}">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Horizontal"
+                             Span="1"
+                             VerticalItemSpacing="8"
+                             HorizontalItemSpacing="12" />
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="btns:ChipData">
+                <btns:ChipView Index="{Binding Index}"
+                               Name="{Binding Name}"
+                               StrokeColor="{Binding StrokeColor}"
+                               BackgroundChip="{Binding BackgroundChip}"
+                               TextColor="{Binding TextColor}"
+                               TapCommand="{Binding Command, Source={x:Reference chipsView}}" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentView>

@@ -3,20 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GiftGenerator.Features.Home"
              x:DataType="vm:MainPageViewModel"
+             Shell.NavBarIsVisible="False"
              x:Class="GiftGenerator.Features.Home.MainPage">
 
-    <Grid RowDefinitions="*,auto"
-          ColumnDefinitions="4*,*">
+    <Grid RowDefinitions="48,auto"
+          ColumnDefinitions="auto,auto,*"
+          Margin="8,6">
 
-        <CollectionView Grid.ColumnSpan="2"
-                        ItemsSource="{Binding ChatList}" />
+        <Border Grid.ColumnSpan="3"
+                StrokeShape="RoundRectangle 24"
+                Padding="8">
+            <Grid ColumnDefinitions="40,*,40"
+                  ColumnSpacing="12">
+                <Image Source="logo.png"
+                       HeightRequest="40"
+                       WidthRequest="40" />
+
+                <Label Grid.Column="1"
+                       Text="Gift Generator"
+                       FontAttributes="Bold"
+                       FontSize="24"
+                       VerticalTextAlignment="Center"
+                       TextColor="{StaticResource RedTextColor}" />
+
+                <Image Grid.Column="2" Source="hello.png"
+                       HeightRequest="40"
+                       WidthRequest="40">
+                    <Image.Clip>
+                        <EllipseGeometry RadiusX="20"
+                                         RadiusY="20"
+                                         Center="20,20" />
+                    </Image.Clip>
+                </Image>
+            </Grid>
+        </Border>
 
         <Entry Grid.Row="1"
+               Grid.ColumnSpan="3"
                Placeholder="Ask a Question ..."
                Text="{Binding Question}" />
 
         <Button Grid.Row="1"
                 Grid.Column="1"
+                Grid.ColumnSpan="3"
                 Text="Send"
                 HeightRequest="40"
                 WidthRequest="40"

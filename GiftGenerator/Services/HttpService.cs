@@ -36,7 +36,7 @@ public class HttpService : IHttpService
         }
 
         string sUserId = "1";
-        string sModel = "text-davinci-003"; // text-davinci-002, text-davinci-003
+        string sModel = "text-davinci-002"; // text-davinci-002, text-davinci-003
 
         string data = "{";
         data += " \"model\":\"" + sModel + "\",";

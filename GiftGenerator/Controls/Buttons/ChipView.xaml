@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Border xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        x:Class="GiftGenerator.Controls.Buttons.ChipView"
+        x:Name="chipView"
+        Stroke="{Binding StrokeColor, Source={x:Reference chipView}}"
+        BackgroundColor="{Binding BackgroundChip, Source={x:Reference chipView}}"
+        StrokeShape="RoundRectangle 17"
+        StrokeThickness="2"
+        Padding="12,4"
+        HeightRequest="35"
+        WidthRequest="105">
+    <Label Text="{Binding Name, Source={x:Reference chipView}}"
+           TextColor="{Binding TextColor, Source={x:Reference chipView}}"
+           FontSize="16"
+           FontFamily="PPM"
+           HorizontalTextAlignment="Center"
+           HorizontalOptions="CenterAndExpand"
+           VerticalTextAlignment="Center"
+           VerticalOptions="CenterAndExpand" />
+    <Border.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding TapCommand, Source={x:Reference chipView}}"
+                              CommandParameter="{Binding Index, Source={x:Reference chipView}}" />
+    </Border.GestureRecognizers>
+</Border>
