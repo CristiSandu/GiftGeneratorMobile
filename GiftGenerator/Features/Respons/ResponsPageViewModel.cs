@@ -1,6 +1,8 @@
 ﻿
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GiftGenerator.Controls.PopUps;
 using GiftGenerator.Utils;
 
 namespace GiftGenerator.Features.Respons;
@@ -49,25 +51,14 @@ public partial class ResponsPageViewModel : BaseViewModel, IQueryAttributable
     private async void CopyRecommandation(string value)
     {
         await Clipboard.Default.SetTextAsync(value);
-        await UtilsMethods.ShowToast("Recommendation Copied in clipboard", CommunityToolkit.Maui.Core.ToastDuration.Short);
+        await UtilsMethods.ShowToast($"Copied in clipboard\n{value}", CommunityToolkit.Maui.Core.ToastDuration.Short);
         SelectedRecommandation = null;
     }
 
     [RelayCommand]
-    private async void RequestAdvancedRecomandation()
+    private async void OpenRequestPopUp()
     {
-        string subject = "Advanced Recomandation Request";
-        string body = CustomRecomandation;
-        string[] recipients = new[] { "cristysandu3@gmail.com" };
-
-        var message = new EmailMessage
-        {
-            Subject = subject,
-            Body = body,
-            BodyFormat = EmailBodyFormat.Html,
-            To = new List<string>(recipients)
-        };
-
-        await Email.Default.ComposeAsync(message);
+        var popup = new AdvanceRequestPopUp();
+        var result = await Shell.Current.ShowPopupAsync(popup);
     }
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:vm="clr-namespace:GiftGenerator.Controls.PopUps"
+               Color="Transparent"
+               x:DataType="vm:AdvanceRequestPopUpViewModel"
+               x:Class="GiftGenerator.Controls.PopUps.AdvanceRequestPopUp">
+    <Frame BackgroundColor="White"
+           HeightRequest="{OnPlatform iOS=280, Android=300}"
+           WidthRequest="350">
+        <Grid RowDefinitions="auto,*,*,auto"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="12"
+              RowSpacing="12">
+            <Label Text="Enter a custom present request!"
+                   Grid.ColumnSpan="2"
+                   Style="{StaticResource TitleStyle}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            <Border Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Grid.RowSpan="2"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 15,15,15,15">
+                <Border.Padding>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="Android"
+                            Value="12,0" />
+                        <On Platform="iOS"
+                            Value="0,12" />
+                    </OnPlatform>
+                </Border.Padding>
+                <Editor Placeholder="⚠The answer will come in a maximum day!⚠"
+                        Text="{Binding CustomRequest}"
+                        PlaceholderColor="Black"
+                        TextColor="Black"
+                        FontFamily="PPSB" />
+            </Border>
+            <Button Grid.Row="3"
+                    Grid.Column="0"
+                    Text="Send"
+                    FontFamily="PPSB"
+                    Clicked="Button_Clicked" />
+            <Button Grid.Row="3"
+                    Grid.Column="1"
+                    Text="Cancel"
+                    FontFamily="PPSB"
+                    Clicked="Button_Clicked" />
+        </Grid>
+    </Frame>
+</toolkit:Popup>
