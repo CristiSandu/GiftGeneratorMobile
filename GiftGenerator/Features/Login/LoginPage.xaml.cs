@@ -19,4 +19,10 @@ public partial class LoginPage : ContentPage
             await Shell.Current.GoToAsync($"{nameof(MainPage)}");
         }
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        (BindingContext as LoginPageViewModel).NavigateToCommand.Execute(null);
+    }
 }

@@ -29,6 +29,7 @@ public partial class LoginPageViewModel : BaseViewModel
     {
         _authService = authService;
         RegisterText = "Register";
+        Title = "Login";
     }
 
     [RelayCommand]
@@ -74,9 +75,12 @@ public partial class LoginPageViewModel : BaseViewModel
         if (RegisterText == "Back")
         {
             RegisterText = "Register";
+            Title = "Login";
+
         }
         else
         {
+            Title = "Register";
             RegisterText = "Back";
         }
     }

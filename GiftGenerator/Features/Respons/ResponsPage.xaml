@@ -122,6 +122,13 @@
                     </Label>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <Button Style="{StaticResource ButtonColor}"
+                        Text="Feedback"
+                        HorizontalOptions="Center"
+                        Command="{Binding OpenFeedbackPopUpCommand}" />
+            </CollectionView.Footer>
         </CollectionView>
     </Grid>
 </ContentPage>

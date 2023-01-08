@@ -8,8 +8,7 @@
         StrokeShape="RoundRectangle 17"
         StrokeThickness="2"
         Padding="12,4"
-        HeightRequest="35"
-        WidthRequest="105">
+        HeightRequest="35">
     <Label Text="{Binding Name, Source={x:Reference chipView}}"
            TextColor="{Binding TextColor, Source={x:Reference chipView}}"
            FontSize="16"

@@ -4,7 +4,7 @@
              x:Class="GiftGenerator.Features.Settings.SettingsPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Shell.NavBarIsVisible="False">
-    <VerticalStackLayout Margin="12">
+    <VerticalStackLayout Margin="12" Spacing="24">
         <Grid ColumnDefinitions="auto,auto"
               ColumnSpacing="12">
             <toolkit:AvatarView x:Name="avatarView"
@@ -33,5 +33,30 @@
                 Style="{StaticResource ButtonColor}"
                 HorizontalOptions="End"
                 Clicked="Button_Clicked" />
+
+        <Border BackgroundColor="White"
+                HeightRequest="200"
+                StrokeShape="RoundRectangle 15,15,15,15">
+            <Border.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="Android"
+                        Value="12,0" />
+                    <On Platform="iOS"
+                        Value="0,12" />
+                </OnPlatform>
+            </Border.Padding>
+            <Editor x:Name="FeedbackEditor"
+                    Placeholder="Add Feedback"
+                    HeightRequest="200"
+                    PlaceholderColor="{StaticResource Gray600}"
+                    Text="{Binding CustomRequest}"
+                    TextColor="Black"
+                    FontFamily="PPSB" />
+        </Border>
+        <Button Text="Send"
+                HorizontalOptions="Center"
+                FontFamily="PPSB"
+                Style="{StaticResource ButtonColor}"
+                Clicked="Button_Clicked_1" />
     </VerticalStackLayout>
 </ContentPage>

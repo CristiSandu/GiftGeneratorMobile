@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GiftGenerator.Features;
+using Microsoft.AppCenter.Analytics;
 
 namespace GiftGenerator.Controls.PopUps;
 
@@ -17,6 +18,12 @@ public partial class AdvanceRequestPopUpViewModel : BaseViewModel
     [RelayCommand]
     private async void RequestAdvancedRecomandation()
     {
+        Analytics.TrackEvent("Send on AdvanceRequest", new Dictionary<string, string>
+        {
+            {"CustomRequest", CustomRequest },
+            {"User", Utils.Settings.UserName }
+        });
+
         string subject = "Advanced Recomandation Request";
         string body = CustomRequest;
         string[] recipients = new[] { "cristysandu3@gmail.com" };

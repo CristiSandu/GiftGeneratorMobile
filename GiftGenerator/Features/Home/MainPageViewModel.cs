@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GiftGenerator.Features.Respons;
 using GiftGenerator.Services.Interfaces;
+using Microsoft.AppCenter.Analytics;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 
@@ -38,12 +39,12 @@ public partial class MainPageViewModel : BaseViewModel
     [ObservableProperty]
     List<string> interval = new List<string>
     {
-        "50 lei",
-        "100 lei",
-        "150 lei",
-        "200 lei",
-        "500 lei",
-        "2000 lei"
+        "0-100 lei",
+        "200-400 lei",
+        "400-800 lei",
+        "800-1200 lei",
+        "1200-2000 lei",
+        "2000-3000 lei"
     };
 
     [ObservableProperty]
@@ -117,6 +118,15 @@ public partial class MainPageViewModel : BaseViewModel
         //var serializedJsonRequest = JsonConvert.SerializeObject(finalPrompts);
 
         //int j = 0;
+
+        Analytics.TrackEvent("Selected Interests", new Dictionary<string, string>
+        {
+            {"Interesets", string.Join(", ", SelectedIntervals) },
+            {"For", IsGirl ? "Girlfriend" : "Boyfriend" },
+            {"Prices", PriceInterval},
+            {"User", Utils.Settings.UserName }
+        });
+
         IsBusy = true;
         string fileName = IsGirl ? "InterestsG.json" : "InterestsB.json";
         List<string> respons = await _predictionService.GetRecomandationBasedOfInterests(fileName, SelectedIntervals);

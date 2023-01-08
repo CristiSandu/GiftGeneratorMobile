@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GiftGenerator.Controls.PopUps;
 using GiftGenerator.Utils;
+using Microsoft.AppCenter.Analytics;
 
 namespace GiftGenerator.Features.Respons;
 
@@ -48,7 +49,16 @@ public partial class ResponsPageViewModel : BaseViewModel, IQueryAttributable
     partial void OnSelectedRecommandationChanged(string value)
     {
         if (value != null)
+        {
             CopyRecommandationCommand.Execute(value);
+
+            Analytics.TrackEvent("PressOnARecommandation", new Dictionary<string, string>
+            {
+                {"Recommandation", value },
+                {"Filters", Message },
+                {"User", Utils.Settings.UserName }
+            });
+        }
     }
 
     [RelayCommand]
@@ -62,7 +72,25 @@ public partial class ResponsPageViewModel : BaseViewModel, IQueryAttributable
     [RelayCommand]
     private async void OpenRequestPopUp()
     {
+        Analytics.TrackEvent("Intention on AdvanceRequest", new Dictionary<string, string>
+        {
+            {"User", Utils.Settings.UserName }
+        });
+
         var popup = new AdvanceRequestPopUp();
+        var result = await Shell.Current.ShowPopupAsync(popup);
+    }
+
+
+    [RelayCommand]
+    private async void OpenFeedbackPopUp()
+    {
+        Analytics.TrackEvent("Intention on Adding Feedback", new Dictionary<string, string>
+        {
+            {"User", Utils.Settings.UserName }
+        });
+
+        var popup = new FeedbackPopUp();
         var result = await Shell.Current.ShowPopupAsync(popup);
     }
 }

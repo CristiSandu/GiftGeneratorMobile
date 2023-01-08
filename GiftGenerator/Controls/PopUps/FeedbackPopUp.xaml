@@ -2,10 +2,8 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               xmlns:vm="clr-namespace:GiftGenerator.Controls.PopUps"
                Color="Transparent"
-               x:DataType="vm:AdvanceRequestPopUpViewModel"
-               x:Class="GiftGenerator.Controls.PopUps.AdvanceRequestPopUp">
+               x:Class="GiftGenerator.Controls.PopUps.FeedbackPopUp">
     <Frame BackgroundColor="White"
            HeightRequest="{OnPlatform iOS=280, Android=300}"
            WidthRequest="350">
@@ -13,7 +11,7 @@
               ColumnDefinitions="*,*"
               ColumnSpacing="12"
               RowSpacing="12">
-            <Label Text="Enter a custom present request!"
+            <Label Text="Enter a Feedback!"
                    Grid.ColumnSpan="2"
                    Style="{StaticResource TitleStyle}"
                    HorizontalOptions="Center"
@@ -31,7 +29,9 @@
                             Value="0,12" />
                     </OnPlatform>
                 </Border.Padding>
-                <Editor Placeholder="⚠The answer will come in a maximum 1 day!⚠"
+                <Editor x:Name="feedbackEntry"
+                        Grid.ColumnSpan="2"
+                        Placeholder="Enter Feedback                                                   "
                         Text="{Binding CustomRequest}"
                         PlaceholderColor="{StaticResource Gray500}"
                         TextColor="Black"
