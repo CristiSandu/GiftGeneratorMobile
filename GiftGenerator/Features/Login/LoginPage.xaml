@@ -6,9 +6,38 @@
              x:DataType="vm:LoginPageViewModel"
              Shell.NavBarIsVisible="False"
              Title="LoginPage">
-    <VerticalStackLayout VerticalOptions="Center"
-                         HorizontalOptions="Center">
-        <Button Text="Login With Google"
+    <Grid VerticalOptions="Center"
+          Margin="24,0"
+          RowDefinitions="auto,auto,auto,*"
+          ColumnDefinitions="*,*"
+          ColumnSpacing="12">
+
+        <Entry Grid.ColumnSpan="2"
+               Placeholder="Name"
+               Text="{Binding DisplayName}"
+               IsVisible="{Binding IsNameVisible}" />
+        <Entry Grid.ColumnSpan="2"
+               Grid.Row="1"
+               Text="{Binding Email}"
+               Placeholder="Email"
+               Keyboard="Email" />
+        <Entry Grid.ColumnSpan="2"
+               Grid.Row="2"
+               Placeholder="Password"
+               Text="{Binding Password}"
+               IsPassword="True" />
+
+        <Button Grid.Column="0"
+                Grid.Row="3"
+                Text="Next"
+                Margin="0,24"
+                Style="{StaticResource ButtonColor}"
                 Command="{Binding LoginCommand}" />
-    </VerticalStackLayout>
+        <Button Grid.Column="1"
+                Grid.Row="3"
+                Margin="0,24"
+                Style="{StaticResource ButtonColor}"
+                Text="{Binding RegisterText}"
+                Command="{Binding RegisterSelectedCommand}" />
+    </Grid>
 </ContentPage>

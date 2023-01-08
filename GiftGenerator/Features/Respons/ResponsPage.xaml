@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GiftGenerator.Features.Respons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vm:ResponsPageViewModel"
              x:Class="GiftGenerator.Features.Respons.ResponsPage"
              Shell.NavBarIsVisible="False">
@@ -10,6 +11,7 @@
           Margin="8,6">
 
         <Border StrokeShape="RoundRectangle 24"
+                BackgroundColor="White"
                 Padding="8">
 
             <Border.Shadow>
@@ -32,16 +34,22 @@
                        FontFamily="PPSB"
                        TextColor="{StaticResource RedTextColor}" />
 
-                <Image Grid.Column="2"
-                       Source="hello.png"
-                       HeightRequest="40"
-                       WidthRequest="40">
-                    <Image.Clip>
-                        <EllipseGeometry RadiusX="20"
-                                         RadiusY="20"
-                                         Center="20,20" />
-                    </Image.Clip>
-                </Image>
+                <toolkit:AvatarView Grid.Column="2"
+                                    HeightRequest="34"
+                                    WidthRequest="34"
+                                    CornerRadius="20"
+                                    Text="{Binding Initials}"
+                                    TextColor="{StaticResource RedTextColor}"
+                                    BorderColor="{StaticResource RedTextColor}"
+                                    BackgroundColor="White"
+                                    BorderWidth="2"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+                    <toolkit:AvatarView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToCommand}"
+                                              CommandParameter="SettingsPage" />
+                    </toolkit:AvatarView.GestureRecognizers>
+                </toolkit:AvatarView>
             </Grid>
         </Border>
 

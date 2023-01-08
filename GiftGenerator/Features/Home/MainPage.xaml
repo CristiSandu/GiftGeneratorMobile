@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:GiftGenerator.Features.Home"
              xmlns:btns="clr-namespace:GiftGenerator.Controls.Buttons"
              xmlns:util="clr-namespace:GiftGenerator.Utils"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vm:MainPageViewModel"
              Shell.NavBarIsVisible="False"
              x:Class="GiftGenerator.Features.Home.MainPage">
@@ -16,6 +17,7 @@
 
             <Border Grid.ColumnSpan="3"
                     StrokeShape="RoundRectangle 24"
+                    BackgroundColor="White"
                     Padding="8">
 
                 <Border.Shadow>
@@ -38,16 +40,22 @@
                            FontFamily="PPSB"
                            TextColor="{StaticResource RedTextColor}" />
 
-                    <Image Grid.Column="2"
-                           Source="hello.png"
-                           HeightRequest="40"
-                           WidthRequest="40">
-                        <Image.Clip>
-                            <EllipseGeometry RadiusX="20"
-                                             RadiusY="20"
-                                             Center="20,20" />
-                        </Image.Clip>
-                    </Image>
+                    <toolkit:AvatarView Grid.Column="2"
+                                        HeightRequest="34"
+                                        WidthRequest="34"
+                                        CornerRadius="20"
+                                        Text="{Binding Initials}"
+                                        TextColor="{StaticResource RedTextColor}"
+                                        BorderColor="{StaticResource RedTextColor}"
+                                        BackgroundColor="White"
+                                        BorderWidth="2"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center">
+                        <toolkit:AvatarView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToCommand}"
+                                                  CommandParameter="SettingsPage" />
+                        </toolkit:AvatarView.GestureRecognizers>
+                    </toolkit:AvatarView>
                 </Grid>
             </Border>
 
@@ -63,7 +71,7 @@
                                   FontFamily="PPSB"
                                   FontAttributes="Bold"
                                   TextColor="{StaticResource TextColor}" />
-                            <Span Text="John Doe"
+                            <Span Text="{Binding UserName}"
                                   FontFamily="PPSB"
                                   FontAttributes="Bold"
                                   TextColor="{StaticResource RedTextColor}" />
@@ -168,6 +176,22 @@
                 </Button>
 
             </VerticalStackLayout>
+
+            <Border Stroke="Transparent"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    Margin="-4"
+                    Opacity="0.9"
+                    BackgroundColor="White"
+                    IsVisible="{Binding IsBusy}">
+                <VerticalStackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center">
+                    <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                       IsRunning="{Binding IsBusy}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Border>
         </Grid>
     </ScrollView>
 </ContentPage>

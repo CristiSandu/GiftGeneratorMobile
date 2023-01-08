@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GiftGenerator.Features;
 
@@ -18,4 +19,10 @@ public partial class BaseViewModel : ObservableObject
     bool waitForAction;
 
     public bool IsNotBusy => !IsBusy;
+
+    [RelayCommand]
+    private async void GoTo(string page)
+    {
+        await Shell.Current.GoToAsync(page);
+    }
 }

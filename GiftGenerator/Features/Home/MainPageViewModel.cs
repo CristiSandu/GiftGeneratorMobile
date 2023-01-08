@@ -53,6 +53,13 @@ public partial class MainPageViewModel : BaseViewModel
     string priceInterval;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Initials))]
+    string userName;
+
+
+    public string Initials => UserName[..2].ToUpper();
+
+    [ObservableProperty]
     List<string> selectedIntervals;
 
 
@@ -63,6 +70,8 @@ public partial class MainPageViewModel : BaseViewModel
     {
         _httpSerive = httpService;
         _predictionService = predictionService;
+        SelectedIntervals = new List<string>();
+        UserName = Utils.Settings.UserName;
     }
 
     [RelayCommand]
@@ -108,6 +117,7 @@ public partial class MainPageViewModel : BaseViewModel
         //var serializedJsonRequest = JsonConvert.SerializeObject(finalPrompts);
 
         //int j = 0;
+        IsBusy = true;
         string fileName = IsGirl ? "InterestsG.json" : "InterestsB.json";
         List<string> respons = await _predictionService.GetRecomandationBasedOfInterests(fileName, SelectedIntervals);
 
@@ -118,6 +128,9 @@ public partial class MainPageViewModel : BaseViewModel
             { "Message", $"{person}\nInterested in: {string.Join(", ", SelectedIntervals)}\nLess then {PriceInterval}" }
         };
 
+        await Task.Delay(3000);
+
+        IsBusy = false;
         await Shell.Current.GoToAsync(nameof(ResponsPage), navigationParameter);
     }
 

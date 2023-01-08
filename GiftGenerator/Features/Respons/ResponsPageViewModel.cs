@@ -25,10 +25,16 @@ public partial class ResponsPageViewModel : BaseViewModel, IQueryAttributable
     [ObservableProperty]
     string selectedRecommandation;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Initials))]
+    string userName;
+
+    public string Initials => UserName[..2].ToUpper();
 
     public ResponsPageViewModel()
     {
         Recomandations = new List<string>();
+        UserName = Utils.Settings.UserName;
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -37,8 +43,6 @@ public partial class ResponsPageViewModel : BaseViewModel, IQueryAttributable
         Message = query["Message"] as string;
         ResponsCount = recom.Count;
         Recomandations.AddRange(recom);
-
-
     }
 
     partial void OnSelectedRecommandationChanged(string value)
