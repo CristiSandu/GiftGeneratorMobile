@@ -106,6 +106,7 @@ BindableProperty.Create(nameof(ListSpan), typeof(int), typeof(ChipsView), 1);
                     ChipValues[index].StrokeColor = UnSelectionColor;
                     ChipValues[index].BackgroundChip = UnSelectionColor;
                     LastSelection = -1;
+                    TapCommand.Execute(null);
                     return;
                 }
 

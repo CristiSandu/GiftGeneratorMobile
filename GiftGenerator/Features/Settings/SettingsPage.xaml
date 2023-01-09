@@ -4,7 +4,8 @@
              x:Class="GiftGenerator.Features.Settings.SettingsPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Shell.NavBarIsVisible="False">
-    <VerticalStackLayout Margin="12" Spacing="24">
+    <VerticalStackLayout Margin="12"
+                         Spacing="24">
         <Grid ColumnDefinitions="auto,auto"
               ColumnSpacing="12">
             <toolkit:AvatarView x:Name="avatarView"
@@ -46,7 +47,7 @@
                 </OnPlatform>
             </Border.Padding>
             <Editor x:Name="FeedbackEditor"
-                    Placeholder="Add Feedback"
+                    Placeholder="Add Feedback                                                                                                                       "
                     HeightRequest="200"
                     PlaceholderColor="{StaticResource Gray600}"
                     Text="{Binding CustomRequest}"

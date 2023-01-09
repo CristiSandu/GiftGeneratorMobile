@@ -13,8 +13,8 @@ public partial class MainPageViewModel : BaseViewModel
     [ObservableProperty]
     List<string> persons = new List<string>
     {
-        "girlfriend",
-        "boyfriend"
+        "Girlfriend",
+        "Boyfriend"
     };
 
     [ObservableProperty]
@@ -51,6 +51,9 @@ public partial class MainPageViewModel : BaseViewModel
     bool isGirl = true;
 
     [ObservableProperty]
+    string person;
+
+    [ObservableProperty]
     string priceInterval;
 
     [ObservableProperty]
@@ -78,6 +81,7 @@ public partial class MainPageViewModel : BaseViewModel
     [RelayCommand]
     private void PersonChouse(string person)
     {
+        Person = person;
         IsGirl = person == "girlfriend";
     }
 
@@ -135,7 +139,7 @@ public partial class MainPageViewModel : BaseViewModel
         var navigationParameter = new Dictionary<string, object>
         {
             { "Recomandations", respons },
-            { "Message", $"{person}\nInterested in: {string.Join(", ", SelectedIntervals)}\nLess then {PriceInterval}" }
+            { "Message", $"{Person}\nInterested in: {string.Join(", ", SelectedIntervals)}\nPrice Interval {PriceInterval}" }
         };
 
         await Task.Delay(3000);

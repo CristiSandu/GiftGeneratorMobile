@@ -48,7 +48,10 @@ public partial class LoginPageViewModel : BaseViewModel
 
             bool respons = await _authService.RegisterUserTappedAsync(Email, Password, DisplayName);
             if (respons)
+            {
                 RegisterText = "Register";
+                Title = "Login";
+            }
             else
                 await Shell.Current.DisplayAlert("Alert!", $"Error apear, try again", "Ok");
         }
